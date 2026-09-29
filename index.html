@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Presupuesto de Caja & IVA App - Entrenador Financiero</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="py-4">
+
+<div class="container py-2">
+    <!-- ENCABEZADO -->
+    <div class="text-center mb-4">
+        <h1 class="text-primary fw-bold display-6">💰 Presupuesto de Caja & IVA App</h1>
+        <p class="lead text-muted mb-0">Entrenador integral: Flujo de Efectivo Operativo, Cédulas de Cobro/Pago y Tratamiento Tributario del IVA (19%).</p>
+    </div>
+
+    <!-- SECCIÓN 1: GLOSARIO Y FÓRMULAS CLAVE -->
+    <div class="card-custom mb-4">
+        <div class="header-section d-flex justify-content-between align-items-center">
+            <span><i class="bi bi-mortarboard-fill me-2"></i>1. Glosario Maestro y Fórmulas Clave (Chile - IVA 19%)</span>
+            <button class="btn btn-outline-light btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseGlosario">
+                Alternar visualización
+            </button>
+        </div>
+        <div class="collapse show" id="collapseGlosario">
+            <div class="p-4">
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <div class="formula-box h-100 mb-0">
+                            <strong class="text-primary">1. De Bruto a Neto (Desglosar IVA)</strong>
+                            <div class="mt-1"><code>Valor Neto = Valor Bruto / 1,19</code></div>
+                            <div class="mt-1"><code>IVA (19%) = Valor Neto &times; 0,19</code></div>
+                            <small class="text-muted d-block mt-2">O bien: <code>IVA = Bruto - Neto</code>. Utilizado en ventas y compras con factura o boleta.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="formula-box h-100 mb-0">
+                            <strong class="text-primary">2. De Neto a Bruto</strong>
+                            <div class="mt-1"><code>Valor Bruto = Valor Neto &times; 1,19</code></div>
+                            <div class="mt-1"><code>Bruto = Neto + IVA (19%)</code></div>
+                            <small class="text-muted d-block mt-2">Para proyectar la facturación total a cobrar o pagar cuando se negocia en valores netos.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="formula-box h-100 mb-0">
+                            <strong class="text-primary">3. Liquidación F29 de IVA</strong>
+                            <div class="mt-1"><code>Saldo IVA = Débito Fiscal - Crédito Fiscal</code></div>
+                            <small class="text-muted d-block mt-2"><strong>Débito</strong> = IVA de Ventas. <strong>Crédito</strong> = IVA de Compras. Se declara y paga en la caja del mes subsiguiente.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="formula-box h-100 mb-0">
+                            <strong class="text-primary">4. Cédula de Cobranzas / Pagos</strong>
+                            <div class="mt-1"><code>Contado: 50% mes t</code></div>
+                            <div class="mt-1"><code>30 días: 25% mes t-1 | 60 días: 25% mes t-2</code></div>
+                            <small class="text-muted d-block mt-2">El flujo de caja solo registra las entradas reales de dinero bruto en el mes calendario.</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="formula-box h-100 mb-0">
+                            <strong class="text-primary">5. Tratamiento de Sueldos</strong>
+                            <div class="mt-1"><code>Sueldo Líquido (80%) = Pagado en el mes</code></div>
+                            <div class="mt-1"><code>Imposiciones (20%) = Pagado mes siguiente</code></div>
+                            <small class="text-muted d-block mt-2">La previsión e impuestos retenidos se desembolsan el mes posterior (Previred).</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="formula-box h-100 mb-0">
+                            <strong class="text-primary">6. Ecuación del Presupuesto de Caja</strong>
+                            <div class="mt-1"><code>Flujo Neto = Total Ingresos - Total Egresos</code></div>
+                            <div class="mt-1"><code>Saldo Final = Saldo Inicial + Flujo Neto</code></div>
+                            <small class="text-muted d-block mt-2">El Saldo Final de un mes es obligatoriamente el Saldo Inicial del siguiente.</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- NAVEGACIÓN DE SESIONES -->
+    <ul class="nav nav-pills nav-fill mb-4 p-2 bg-white rounded shadow-sm border" id="sesionesTab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active fw-bold" id="tab-s1-btn" data-bs-toggle="pill" data-bs-target="#tab-s1" type="button" role="tab">
+                <i class="bi bi-1-circle me-1"></i> Sesión 1: Desglose de IVA & F29
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold" id="tab-s2-btn" data-bs-toggle="pill" data-bs-target="#tab-s2" type="button" role="tab">
+                <i class="bi bi-2-circle me-1"></i> Sesión 2: Cédula de Cobranzas
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold" id="tab-s3-btn" data-bs-toggle="pill" data-bs-target="#tab-s3" type="button" role="tab">
+                <i class="bi bi-3-circle me-1"></i> Sesión 3: Sueldos e Imposiciones
+            </button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link fw-bold" id="tab-s4-btn" data-bs-toggle="pill" data-bs-target="#tab-s4" type="button" role="tab">
+                <i class="bi bi-4-circle me-1"></i> Sesión 4: Presupuesto Maestro Completo
+            </button>
+        </li>
+    </ul>
+
+    <!-- CONTENEDORES DE CADA SESIÓN -->
+    <div class="tab-content" id="sesionesTabContent">
+
+        <!-- SESIÓN 1 -->
+        <div class="tab-pane fade show active" id="tab-s1" role="tabpanel">
+            <div class="card-custom">
+                <div class="header-section d-flex justify-content-between align-items-center">
+                    <span>Sesión 1: Cálculos de IVA (Neto, Bruto, Débito, Crédito y Saldo)</span>
+                    <button class="btn btn-warning btn-sm fw-bold text-dark" onclick="generarS1()">
+                        <i class="bi bi-arrow-clockwise"></i> Generar Nuevo Ejercicio
+                    </button>
+                </div>
+                <div class="p-4">
+                    <p class="fs-5 mb-3" id="s1-enunciado">Cargando...</p>
+                    <div id="s1-acciones" class="gap-2 d-flex flex-wrap mb-3">
+                        <button class="btn btn-primary" onclick="mostrarInteractivo('s1')">Resolver por ti mismo ✍️</button>
+                        <button class="btn btn-outline-success" onclick="mostrarSolucion('s1')">Ver Solución Directa 📖</button>
+                    </div>
+
+                    <div id="s1-panel-eval" class="p-4 border rounded bg-light" style="display: none;">
+                        <h6 class="text-primary fw-bold mb-3">Ingresa tus cálculos numéricos (sin puntos ni signos):</h6>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">a) Valor Neto Ventas ($)</label>
+                                <input type="text" id="s1-in-neto" class="form-control" placeholder="Ej: 33000000">
+                                <div class="form-text">Bruto / 1,19</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">b) Débito Fiscal IVA ($)</label>
+                                <input type="text" id="s1-in-debito" class="form-control" placeholder="Ej: 6270000">
+                                <div class="form-text">Neto &times; 19%</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">c) Crédito Fiscal IVA ($)</label>
+                                <input type="text" id="s1-in-credito" class="form-control" placeholder="Ej: 3135000">
+                                <div class="form-text">Neto compras &times; 19%</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">d) Saldo a Pagar al Fisco ($)</label>
+                                <input type="text" id="s1-in-saldo" class="form-control" placeholder="Ej: 3135000">
+                                <div class="form-text">Débito - Crédito</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning fw-bold text-dark mt-3" onclick="evaluarS1()">Evaluar mis respuestas ✔️</button>
+                        <div id="s1-eval-msg" class="mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="s1-sol-card" class="card-custom mt-4" style="display: none;">
+                <div class="header-success-custom">Solución Paso a Paso - Sesión 1</div>
+                <div class="p-4">
+                    <h5 class="fw-bold">1. Desglose de Ventas (Débito Fiscal)</h5>
+                    <div class="calc-box mb-4" id="s1-sol-box-ventas"></div>
+                    <h5 class="fw-bold">2. Desglose de Compras (Crédito Fiscal)</h5>
+                    <div class="calc-box mb-4" id="s1-sol-box-compras"></div>
+                    <h5 class="fw-bold">3. Liquidación del IVA (A desembolsar el mes siguiente)</h5>
+                    <div class="calc-box mb-2" id="s1-sol-box-liq"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 2 -->
+        <div class="tab-pane fade" id="tab-s2" role="tabpanel">
+            <div class="card-custom">
+                <div class="header-section d-flex justify-content-between align-items-center">
+                    <span>Sesión 2: Cédula de Cobranzas Proyectadas (50% Contado, 25% 30 días, 25% 60 días)</span>
+                    <button class="btn btn-warning btn-sm fw-bold text-dark" onclick="generarS2()">
+                        <i class="bi bi-arrow-clockwise"></i> Generar Nuevo Ejercicio
+                    </button>
+                </div>
+                <div class="p-4">
+                    <p class="fs-5 mb-3" id="s2-enunciado">Cargando...</p>
+                    <div id="s2-acciones" class="gap-2 d-flex flex-wrap mb-3">
+                        <button class="btn btn-primary" onclick="mostrarInteractivo('s2')">Resolver por ti mismo ✍️</button>
+                        <button class="btn btn-outline-success" onclick="mostrarSolucion('s2')">Ver Solución Directa 📖</button>
+                    </div>
+
+                    <div id="s2-panel-eval" class="p-4 border rounded bg-light" style="display: none;">
+                        <h6 class="text-primary fw-bold mb-3">Ingresa las cobranzas reales estimadas para el mes de Octubre:</h6>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Cobro Contado Octubre (50%)</label>
+                                <input type="text" id="s2-in-c-oct" class="form-control" placeholder="Ej: 22015000">
+                                <div class="form-text">50% de las ventas de Octubre.</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Cobro 30 días (25% Sept.)</label>
+                                <input type="text" id="s2-in-c-sep" class="form-control" placeholder="Ej: 10115000">
+                                <div class="form-text">25% de las ventas de Septiembre.</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Cobro 60 días (25% Agosto)</label>
+                                <input type="text" id="s2-in-c-ago" class="form-control" placeholder="Ej: 9817500">
+                                <div class="form-text">25% de las ventas de Agosto.</div>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label fw-bold">Total Ingreso Ventas Octubre</label>
+                                <input type="text" id="s2-in-c-tot" class="form-control" placeholder="Ej: 41947500">
+                                <div class="form-text">Suma de los 3 cobros del mes.</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning fw-bold text-dark mt-3" onclick="evaluarS2()">Evaluar mis respuestas ✔️</button>
+                        <div id="s2-eval-msg" class="mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="s2-sol-card" class="card-custom mt-4" style="display: none;">
+                <div class="header-success-custom">Solución Paso a Paso - Sesión 2</div>
+                <div class="p-4">
+                    <h5 class="fw-bold">Cédula de Cobranzas Detallada</h5>
+                    <div class="table-responsive mt-3 mb-4">
+                        <table class="table table-bordered text-center align-middle">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Concepto Cobranza</th>
+                                    <th>Cálculo</th>
+                                    <th>Monto Recaudado en Octubre</th>
+                                </tr>
+                            </thead>
+                            <tbody id="s2-sol-tabla"></tbody>
+                        </table>
+                    </div>
+                    <div class="calc-box mb-2" id="s2-sol-box-tot"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 3 -->
+        <div class="tab-pane fade" id="tab-s3" role="tabpanel">
+            <div class="card-custom">
+                <div class="header-section d-flex justify-content-between align-items-center">
+                    <span>Sesión 3: Sueldos Líquidos e Imposiciones Previsionales</span>
+                    <button class="btn btn-warning btn-sm fw-bold text-dark" onclick="generarS3()">
+                        <i class="bi bi-arrow-clockwise"></i> Generar Nuevo Ejercicio
+                    </button>
+                </div>
+                <div class="p-4">
+                    <p class="fs-5 mb-3" id="s3-enunciado">Cargando...</p>
+                    <div id="s3-acciones" class="gap-2 d-flex flex-wrap mb-3">
+                        <button class="btn btn-primary" onclick="mostrarInteractivo('s3')">Resolver por ti mismo ✍️</button>
+                        <button class="btn btn-outline-success" onclick="mostrarSolucion('s3')">Ver Solución Directa 📖</button>
+                    </div>
+
+                    <div id="s3-panel-eval" class="p-4 border rounded bg-light" style="display: none;">
+                        <h6 class="text-primary fw-bold mb-3">Ingresa los egresos de caja para Octubre por concepto de remuneraciones:</h6>
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Sueldo Líquido Octubre (80%)</label>
+                                <input type="text" id="s3-in-liq-oct" class="form-control" placeholder="Ej: 5600000">
+                                <div class="form-text">Pago a trabajadores en Octubre.</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Imposiciones pagadas en Octubre</label>
+                                <input type="text" id="s3-in-imp-pag" class="form-control" placeholder="Ej: 1200000">
+                                <div class="form-text">20% correspondiente a Septiembre.</div>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label fw-bold">Total Desembolso Sueldos Octubre</label>
+                                <input type="text" id="s3-in-tot-sueldos" class="form-control" placeholder="Ej: 6800000">
+                                <div class="form-text">Líquido Octubre + Imposiciones Sept.</div>
+                            </div>
+                        </div>
+                        <button class="btn btn-warning fw-bold text-dark mt-3" onclick="evaluarS3()">Evaluar mis respuestas ✔️</button>
+                        <div id="s3-eval-msg" class="mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="s3-sol-card" class="card-custom mt-4" style="display: none;">
+                <div class="header-success-custom">Solución Paso a Paso - Sesión 3</div>
+                <div class="p-4">
+                    <h5 class="fw-bold">Desglose de Remuneraciones e Imposiciones</h5>
+                    <div class="calc-box mb-4" id="s3-sol-box-sueldos"></div>
+                    <h5 class="fw-bold">Impacto Real en el Flujo de Octubre</h5>
+                    <div class="calc-box mb-2" id="s3-sol-box-res"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- SESIÓN 4: PRESUPUESTO MAESTRO COMPLETO (2 O 3 MESES) -->
+        <div class="tab-pane fade" id="tab-s4" role="tabpanel">
+            <div class="card-custom">
+                <div class="header-section d-flex justify-content-between align-items-center flex-wrap gap-2">
+                    <div class="d-flex align-items-center gap-2">
+                        <span id="s4-titulo-sesion">Sesión 4: Presupuesto de Caja Completo</span>
+                        <div class="btn-group btn-group-sm ms-2" role="group">
+                            <input type="radio" class="btn-check" name="horizonteRadio" id="radio2M" autocomplete="off" checked onchange="cambiarMeses(2)">
+                            <label class="btn btn-outline-light" for="radio2M">2 Meses (Oct-Nov)</label>
+
+                            <input type="radio" class="btn-check" name="horizonteRadio" id="radio3M" autocomplete="off" onchange="cambiarMeses(3)">
+                            <label class="btn btn-outline-light" for="radio3M">3 Meses (Oct-Nov-Dic)</label>
+                        </div>
+                    </div>
+                    <button class="btn btn-warning btn-sm fw-bold text-dark" onclick="generarS4()">
+                        <i class="bi bi-arrow-clockwise"></i> Generar Nuevo Ejercicio
+                    </button>
+                </div>
+                <div class="p-4">
+                    <h5 class="card-title fw-bold text-dark">Caso de Estudio Completo:</h5>
+                    <p class="fs-5 mb-3" id="s4-enunciado">Cargando...</p>
+
+                    <div id="s4-acciones" class="gap-2 d-flex flex-wrap mb-3">
+                        <button class="btn btn-primary" onclick="mostrarInteractivo('s4')">Resolver por ti mismo ✍️</button>
+                        <button class="btn btn-outline-success" onclick="mostrarSolucion('s4')">Ver Matriz Completa Resuelta 📖</button>
+                    </div>
+
+                    <div id="s4-panel-eval" class="p-4 border rounded bg-light" style="display: none;">
+                        <h6 class="text-primary fw-bold mb-3">Ingresa los totales resultantes del presupuesto (sin puntos):</h6>
+                        <div class="row g-3" id="s4-inputs-dinamicos">
+                            <!-- Los inputs se generan automáticamente según 2 o 3 meses -->
+                        </div>
+                        <button class="btn btn-warning fw-bold text-dark mt-3" onclick="evaluarS4()">Evaluar mis respuestas ✔️</button>
+                        <div id="s4-eval-msg" class="mt-3" style="display: none;"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="s4-sol-card" class="card-custom mt-4" style="display: none;">
+                <div class="header-success-custom">Matriz Maestra de Flujo de Caja Resuelta</div>
+                <div class="p-4">
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-hover text-end align-middle">
+                            <thead class="table-dark text-center" id="s4-tabla-head">
+                                <!-- Cabeceras dinámicas generadas en JS -->
+                            </thead>
+                            <tbody id="s4-tabla-caja"></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<!-- SCRIPTS -->
+<script src="script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
